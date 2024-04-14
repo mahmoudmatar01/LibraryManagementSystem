@@ -13,9 +13,11 @@ import org.example.bookslibrary.repositories.BookRepository;
 import org.example.bookslibrary.repositories.BorrowingRecordRepository;
 import org.example.bookslibrary.services.BookService;
 import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -26,18 +28,26 @@ public class BookServiceImpl implements BookService {
     private final BookToBookResponseDtoMapper bookToBookResponseDtoMapper;
     private final BookRequestDtoToBookMapper bookRequestDtoToBookMapper;
 
+
     @Cacheable(cacheNames = "books")
     @Override
     public List<BookResponseDto> getAllBooks() {
         return bookRepository.findAll().stream()
+                .sorted(Comparator.comparing(Book::getId))
                 .map(bookToBookResponseDtoMapper)
                 .toList();
     }
+
+    // Cache by book ID
+    @Cacheable(cacheNames = "books", key = "#id")
     @Override
     public BookResponseDto getBookById(Long id) {
         Book book= checkIfBookExistedOrThrowException(id);
         return bookToBookResponseDtoMapper.apply(book);
     }
+
+    // Evict all books cache after save
+    @CacheEvict(cacheNames = "books", allEntries = true)
     @Override
     @Transactional
     public BookResponseDto saveBook(BookRequestDto book) {
@@ -46,6 +56,7 @@ public class BookServiceImpl implements BookService {
         return bookToBookResponseDtoMapper.apply(savedBook);
     }
 
+    @CacheEvict(cacheNames = "books", key = "#bookId", allEntries = true)
     @Override
     @Transactional
     public BookResponseDto updateBook(Long bookId, BookRequestDto newBook) {
@@ -60,6 +71,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional(rollbackOn = ConstraintViolationException.class)
+    @CacheEvict(cacheNames = "books", allEntries = true)
     public void deleteBookById(Long id) {
         Book book= checkIfBookExistedOrThrowException(id);
         if (borrowingRecordRepository.existsByBookId(id)) {
