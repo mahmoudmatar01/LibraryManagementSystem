@@ -54,6 +54,7 @@ The Library Management System API enables librarians to perform various tasks su
 - Java
 - Spring Boot
 - Spring Data JPA
+- Maven
 - Spring AOP
 - Spring Security 
 - PostgreSQL Database
