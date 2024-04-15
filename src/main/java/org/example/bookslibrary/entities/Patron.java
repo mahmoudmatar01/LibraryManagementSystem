@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "patrons")
 @Data
@@ -18,6 +21,9 @@ public class Patron{
     @Email
     private String email;
     private String phoneNumber;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "patron", cascade = CascadeType.ALL)
+    private Set<BorrowingRecord> borrowedBooks = new HashSet<>();
+
     @Transient // This field will not be stored in the database
     private String contactInformation;
     public String getContactInformation() {

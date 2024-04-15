@@ -14,13 +14,13 @@ public class BorrowController {
 
     @PostMapping("/borrow/{bookId}/patron/{patronId}")
     public ResponseEntity<?> borrowBook(@PathVariable Long bookId, @PathVariable Long patronId) {
-            BorrowingRecord borrowingRecord = borrowService.borrowBook(bookId, patronId);
+            var borrowingRecord = borrowService.borrowBook(bookId, patronId);
             return ResponseEntity.ok(borrowingRecord);
     }
 
     @PutMapping("/return/{bookId}/patron/{patronId}")
     public ResponseEntity<?> returnBook(@PathVariable  Long bookId, @PathVariable Long patronId ) {
-        BorrowingRecord borrowingRecord = borrowService.returnBook(bookId,patronId);
+        var borrowingRecord = borrowService.returnBook(bookId,patronId);
         return ResponseEntity.ok(borrowingRecord);
     }
 }
