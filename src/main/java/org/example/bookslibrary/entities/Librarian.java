@@ -15,12 +15,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 @Entity
-@Table(name = "admins")
+@Table(name = "librarian")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class LibraryAdmin implements UserDetails {
+public class Librarian implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long adminId;

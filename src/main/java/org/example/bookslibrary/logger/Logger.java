@@ -25,6 +25,6 @@ public class Logger {
     }
 
     public void logInfo(Class<?> className,String message) {
-        logger.info("LogMsg in class <"+ className.getSimpleName() + ">: "+ message);
+        logger.info("LogMsg in class <{}>: {}", className.getSimpleName(), message);
     }
 }

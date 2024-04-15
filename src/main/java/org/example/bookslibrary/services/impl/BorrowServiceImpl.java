@@ -27,7 +27,7 @@ public class BorrowServiceImpl implements BorrowService {
 
         // Check if book is already borrowed
         if (borrowingRecordRepository.existsByBookIdAndPatronId(bookId,patronId)) {
-            throw new BookAlreadyBorrowedException("Book with ID " + bookId + " is already borrowed.");
+            throw new BookAlreadyBorrowedException("Book with ID " + bookId + " is already borrowed by "+patron.getName());
         }
 
         BorrowingRecord borrowingRecord = BorrowingRecord.builder()
@@ -45,7 +45,7 @@ public class BorrowServiceImpl implements BorrowService {
         Book book = checkBookIsExistedOrThrowException(bookId);
         Patron patron = checkPatronIsExistedOrThrowException(patronId);
         BorrowingRecord borrowingRecord = borrowingRecordRepository.findByBookIdAndPatronId(book.getId(), patron.getId()).orElseThrow(
-                ()->new NotFoundCustomException("Borrowing record for book with ID " + bookId + " and patron with ID " + patronId + " not found.")
+                ()->new NotFoundCustomException("This patron with id "+patronId+" has not borrowed this book with id "+bookId)
         );
         borrowingRecord.setReturnDate(LocalDateTime.now());
         borrowingRecord=borrowingRecordRepository.save(borrowingRecord);

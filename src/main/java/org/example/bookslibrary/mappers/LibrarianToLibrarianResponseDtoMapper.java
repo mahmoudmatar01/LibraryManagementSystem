@@ -1,16 +1,16 @@
 package org.example.bookslibrary.mappers;
 
-import org.example.bookslibrary.dtos.response.AdminResponseDto;
-import org.example.bookslibrary.entities.LibraryAdmin;
+import org.example.bookslibrary.dtos.response.LibrarianResponseDto;
+import org.example.bookslibrary.entities.Librarian;
 import org.springframework.stereotype.Component;
 
 import java.util.function.Function;
 
 @Component
-public class AdminToAdminResponseDtoMapper implements Function<LibraryAdmin, AdminResponseDto> {
+public class LibrarianToLibrarianResponseDtoMapper implements Function<Librarian, LibrarianResponseDto> {
     @Override
-    public AdminResponseDto apply(LibraryAdmin libraryAdmin) {
-        return AdminResponseDto.builder()
+    public LibrarianResponseDto apply(Librarian libraryAdmin) {
+        return LibrarianResponseDto.builder()
                 .adminId(libraryAdmin.getAdminId())
                 .name(libraryAdmin.getUsername())
                 .email(libraryAdmin.getEmail())

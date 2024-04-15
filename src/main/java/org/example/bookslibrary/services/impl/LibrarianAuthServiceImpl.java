@@ -1,39 +1,39 @@
 package org.example.bookslibrary.services.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.example.bookslibrary.dtos.request.AdminLoginRequestDto;
-import org.example.bookslibrary.dtos.request.AdminRegisterRequestDto;
-import org.example.bookslibrary.dtos.response.AdminResponseDto;
-import org.example.bookslibrary.entities.LibraryAdmin;
+import org.example.bookslibrary.dtos.request.LibrarianLoginRequestDto;
+import org.example.bookslibrary.dtos.request.LibrarianRegisterRequestDto;
+import org.example.bookslibrary.dtos.response.LibrarianResponseDto;
+import org.example.bookslibrary.entities.Librarian;
 import org.example.bookslibrary.exceptions.BadRequestException;
-import org.example.bookslibrary.mappers.AdminRegisterRequestDtoToAdminMapper;
-import org.example.bookslibrary.mappers.AdminToAdminResponseDtoMapper;
-import org.example.bookslibrary.repositories.AdminRepository;
+import org.example.bookslibrary.mappers.LibrarianRegisterRequestDtoToLibrarianMapper;
+import org.example.bookslibrary.mappers.LibrarianToLibrarianResponseDtoMapper;
+import org.example.bookslibrary.repositories.LibrarianRepository;
 import org.example.bookslibrary.security.JwtTokenUtils;
-import org.example.bookslibrary.services.AdminAuthService;
+import org.example.bookslibrary.services.LibrarianAuthService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AdminAuthServiceImpl implements AdminAuthService {
-    private final AdminRepository adminRepository;
+public class LibrarianAuthServiceImpl implements LibrarianAuthService {
+    private final LibrarianRepository adminRepository;
     private final PasswordEncoder passwordEncoder;
-    private final AdminRegisterRequestDtoToAdminMapper adminRegisterRequestDtoToAdminMapper;
-    private final AdminToAdminResponseDtoMapper adminToAdminResponseDtoMapper;
+    private final LibrarianRegisterRequestDtoToLibrarianMapper adminRegisterRequestDtoToAdminMapper;
+    private final LibrarianToLibrarianResponseDtoMapper adminToAdminResponseDtoMapper;
     private final JwtTokenUtils jwtTokenUtils;
     @Override
-    public void registerAdmin(AdminRegisterRequestDto registerRequest) {
+    public void registerAdmin(LibrarianRegisterRequestDto registerRequest) {
         if (adminRepository.existsByEmail(registerRequest.email())) {
             throw new BadRequestException("Email address already exists.");
         }
-        LibraryAdmin admin=adminRegisterRequestDtoToAdminMapper.apply(registerRequest);
+        Librarian admin=adminRegisterRequestDtoToAdminMapper.apply(registerRequest);
         adminRepository.save(admin);
     }
 
     @Override
-    public AdminResponseDto loginUser(AdminLoginRequestDto loginRequest) {
-        LibraryAdmin admin = adminRepository.findByEmail(loginRequest.email()).orElseThrow(
+    public LibrarianResponseDto loginUser(LibrarianLoginRequestDto loginRequest) {
+        Librarian admin = adminRepository.findByEmail(loginRequest.email()).orElseThrow(
                 ()->new BadRequestException("Admin with email not founded!")
         );
         checkPasswordsMatch(loginRequest.password(), admin.getPassword());

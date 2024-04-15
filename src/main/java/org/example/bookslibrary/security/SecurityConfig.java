@@ -1,9 +1,7 @@
-package org.example.bookslibrary.config;
+package org.example.bookslibrary.security;
 
 
 import lombok.RequiredArgsConstructor;
-import org.example.bookslibrary.security.AuthFilter;
-import org.example.bookslibrary.security.DelegatedAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;

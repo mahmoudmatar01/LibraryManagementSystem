@@ -4,7 +4,7 @@ import lombok.Builder;
 import org.example.bookslibrary.enums.Role;
 
 @Builder
-public record AdminResponseDto(
+public record LibrarianResponseDto(
         Long adminId,
         String name,
         String email,

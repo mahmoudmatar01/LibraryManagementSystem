@@ -3,7 +3,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import org.example.bookslibrary.entities.LibraryAdmin;
+import org.example.bookslibrary.entities.Librarian;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -25,9 +25,9 @@ public class JwtTokenUtils {
                 .setIssuer("app-service")
                 .setExpiration(new Date(System.currentTimeMillis() + 1000L * 60 * 24 * 1000))
                 .claim("created", Calendar.getInstance().getTime())
-                .claim("adminId", ((LibraryAdmin) userDetails).getAdminId())
-                .claim("adminRole", ((LibraryAdmin) userDetails).getUserRole().toString())
-                .claim("adminEmail", ((LibraryAdmin) userDetails).getEmail())
+                .claim("adminId", ((Librarian) userDetails).getAdminId())
+                .claim("adminRole", ((Librarian) userDetails).getUserRole().toString())
+                .claim("adminEmail", ((Librarian) userDetails).getEmail())
                 .signWith(SECRET_KEY)
                 .compact();
     }
