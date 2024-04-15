@@ -54,12 +54,17 @@ The Library Management System API enables librarians to perform various tasks su
 - Java
 - Spring Boot
 - Spring Data JPA
+- Maven
 - Spring AOP
 - Spring Security 
 - PostgreSQL Database
 - JUnit
+- Caching
 
 ## API Documentation
+- **Swagger Documentation**:
+  - Access the Swagger UI to explore and test the API endpoints:
+    - URL: `http://localhost:5920/swagger-ui.html`
 
 - **Book Endpoints**:
   - `GET /api/books`
