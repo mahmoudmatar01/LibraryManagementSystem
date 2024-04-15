@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,8 +41,8 @@ public class BookServiceJUnitTest {
     @Test
     public void whenFindAll_ReturnBooksList(){
         // Mockup
-        Book book1=new Book(1L,"First Book","First Book Author",11,"skhfdkjsdfhjkhjh");
-        Book book2=new Book(2L,"Second Book","Second Book Author",22,"lkdsjflksdnxmcnkl");
+        Book book1=new Book(1L,"First Book","First Book Author",11,"skhfdkjsdfhjkhjh",new HashSet<>());
+        Book book2=new Book(2L,"Second Book","Second Book Author",22,"lkdsjflksdnxmcnkl",new HashSet<>());
 
         List<Book> bookList= Arrays.asList(book1,book2);
         given(bookRepository.findAll()).willReturn(bookList);
@@ -55,7 +56,7 @@ public class BookServiceJUnitTest {
     @Test
     public void whenGetById_BookShouldBeFound(){
         // Mockup
-        Book book1=new Book(1L,"First Book","First Book Author",11,"skhfdkjsdfhjkhjh");
+        Book book1=new Book(1L,"First Book","First Book Author",11,"skhfdkjsdfhjkhjh",new HashSet<>());
         given(bookRepository.findById(anyLong())).willReturn(Optional.of(book1));
 
         // Assertion Test
@@ -89,7 +90,7 @@ public class BookServiceJUnitTest {
         // Mock data
         Long bookId = 1L;
         BookRequestDto newBook = new BookRequestDto("Updated Title", "Updated Author", 2024, "new-isbn");
-        Book book = new Book(bookId, "Old Book Title", "Old Book Author", 2022, "old-isbn");
+        Book book = new Book(bookId, "Old Book Title", "Old Book Author", 2022, "old-isbn",new HashSet<>());
         given(bookRepository.findById(bookId)).willReturn(Optional.of(book));
         given(bookRepository.save(book)).willReturn(book);
 
