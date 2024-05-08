@@ -3,12 +3,10 @@ package org.example.bookslibrary.services;
 import org.example.bookslibrary.dtos.request.BookRequestDto;
 import org.example.bookslibrary.dtos.response.BookResponseDto;
 import org.example.bookslibrary.entities.Book;
-import org.example.bookslibrary.exceptions.BadRequestException;
 import org.example.bookslibrary.exceptions.NotFoundCustomException;
 import org.example.bookslibrary.mappers.BookRequestDtoToBookMapper;
 import org.example.bookslibrary.mappers.BookToBookResponseDtoMapper;
 import org.example.bookslibrary.repositories.BookRepository;
-import org.example.bookslibrary.repositories.BorrowingRecordRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,7 +21,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
 
 @SpringBootTest
 public class BookServiceJUnitTest {

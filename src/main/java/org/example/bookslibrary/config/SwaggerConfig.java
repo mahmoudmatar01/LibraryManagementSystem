@@ -24,7 +24,7 @@ public class SwaggerConfig {
                         )
                 )
                 .info(new Info()
-                        .title("Historian Teacher REST API")
+                        .title("HLibrary Management System REST API")
                         .version("1.0")
                 );
     }
