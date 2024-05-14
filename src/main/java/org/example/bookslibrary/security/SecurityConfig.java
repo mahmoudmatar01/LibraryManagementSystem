@@ -24,15 +24,16 @@ public class SecurityConfig {
 
 
     @Bean
-    public SecurityFilterChain notAuthenticatedFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain authenticatedFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request ->
                         request.requestMatchers(
-                                "/api/auth/**",
-                                "/v3/api-docs/**",
-                                "/swagger-ui/**",
-                                "/actuator/**"
+                                        "/api/auth/**",
+                                        "/v*/api-docs/**",
+                                        "/swagger-ui/**",
+                                        "/swagger-ui.html",
+                                        "/actuator/**"
                                 ).permitAll()
                                 .anyRequest()
                                 .authenticated())
