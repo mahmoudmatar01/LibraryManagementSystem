@@ -19,7 +19,7 @@ public class HealthChecker implements HealthIndicator {
         log.info("total_memory: {} bytes", totalMemory);
         log.info("free_memory_percent: {}%", freeMemoryPercent);
 
-        Health.Builder healthBuilder = (freeMemoryPercent > 30) ? Health.up() : Health.down();
+        Health.Builder healthBuilder = (freeMemoryPercent > 25) ? Health.up() : Health.down();
 
         return healthBuilder
                 .withDetail("free_memory", freeMemory + " bytes")
