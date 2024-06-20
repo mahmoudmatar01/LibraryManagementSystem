@@ -12,7 +12,6 @@ import org.example.bookslibrary.mappers.BookToBookResponseDtoMapper;
 import org.example.bookslibrary.repositories.BookRepository;
 import org.example.bookslibrary.repositories.BorrowingRecordRepository;
 import org.example.bookslibrary.services.BookService;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
