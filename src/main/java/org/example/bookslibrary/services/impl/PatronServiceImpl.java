@@ -67,7 +67,7 @@ public class PatronServiceImpl implements PatronService {
 
     @Override
     @CacheEvict(cacheNames = "patrons", allEntries = true)
-    @Transactional(rollbackOn = ConstraintViolationException.class)
+    @Transactional
     public void deletePatronById(Long id) {
         if (borrowingRecordRepository.existsByPatronId(id)) {
             throw new BadRequestException("Patron cannot be deleted as it has associated borrowing records.");

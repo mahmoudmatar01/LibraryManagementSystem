@@ -70,7 +70,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    @Transactional(rollbackOn = ConstraintViolationException.class)
+    @Transactional
     @CacheEvict(cacheNames = "books", allEntries = true)
     public void deleteBookById(Long id) {
         Book book= checkIfBookExistedOrThrowException(id);
