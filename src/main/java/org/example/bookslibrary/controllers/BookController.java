@@ -7,6 +7,9 @@ import org.example.bookslibrary.services.BookService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/books")
@@ -43,6 +46,13 @@ public class BookController {
     public ResponseEntity<?> removeBook(@PathVariable Long bookId) {
         bookService.deleteBookById(bookId);
         return ResponseEntity.ok("Book removed successfully ");
+    }
+
+    @PostMapping(value = "/upload",consumes = {"multipart/form-data"})
+    public ResponseEntity<?> uploadBook(@RequestPart("file") MultipartFile file) throws IOException {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body("List of books with size "+bookService.uploadBook(file)+" saved in DB successfully");
     }
 }
 

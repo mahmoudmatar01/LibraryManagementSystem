@@ -1,5 +1,8 @@
 package org.example.bookslibrary.services.impl;
 
+import com.opencsv.bean.CsvToBean;
+import com.opencsv.bean.CsvToBeanBuilder;
+import com.opencsv.bean.HeaderColumnNameMappingStrategy;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.bookslibrary.dtos.request.BookRequestDto;
@@ -11,13 +14,21 @@ import org.example.bookslibrary.mappers.BookRequestDtoToBookMapper;
 import org.example.bookslibrary.mappers.BookToBookResponseDtoMapper;
 import org.example.bookslibrary.repositories.BookRepository;
 import org.example.bookslibrary.repositories.BorrowingRecordRepository;
+import org.example.bookslibrary.representation.BookCSVRepresentation;
 import org.example.bookslibrary.services.BookService;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -77,6 +88,33 @@ public class BookServiceImpl implements BookService {
             throw new BadRequestException("Book cannot be deleted as it has associated borrowing records.");
         }
         bookRepository.delete(book);
+    }
+
+    @Override
+    public Integer uploadBook(MultipartFile file) throws IOException {
+        Set<Book> books=parseCSV(file);
+        bookRepository.saveAll(books);
+        return books.size();
+    }
+
+    private Set<Book> parseCSV(MultipartFile file) throws IOException {
+        try(Reader reader=new BufferedReader(new InputStreamReader(file.getInputStream()))){
+            HeaderColumnNameMappingStrategy<BookCSVRepresentation> strategy=new HeaderColumnNameMappingStrategy<>();
+            strategy.setType(BookCSVRepresentation.class);
+            CsvToBean<BookCSVRepresentation> csvToBean= new CsvToBeanBuilder<BookCSVRepresentation>(reader)
+                    .withMappingStrategy(strategy)
+                    .withIgnoreEmptyLine(true)
+                    .withIgnoreLeadingWhiteSpace(true)
+                    .build();
+            return csvToBean.parse()
+                    .stream()
+                    .map(csvLine-> Book.builder()
+                            .title(csvLine.getTitle())
+                            .author(csvLine.getAuthor())
+                            .isbn(csvLine.getIsbn())
+                            .build()
+                    ).collect(Collectors.toSet());
+        }
     }
 
     // Helper Method
